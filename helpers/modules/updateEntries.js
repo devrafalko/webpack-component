@@ -6,16 +6,22 @@ const componentsPath = path.resolve('src','components');
 const updateInitPage = require('./updateInitPage');
 
 module.exports = function (action,component){
+  try{
+    if (!fs.existsSync(componentsPath)) fs.mkdirSync(componentsPath);
+  } catch(err){
+    console.log("\x1b[31m", "Couldn't find 'src/components' directory." ,'\x1b[0m');
+  }
+
   var components = getComponents();
   var entryContent = getJSONcontent(entryJSON);
   return runAction();
-	
+
     function getJSONcontent(file){
       var stringContent = fs.existsSync(file) ? fs.readFileSync(file,'utf8'):[];
       var parsedContent = typeof stringContent==="string" && stringContent.length ? JSON.parse(stringContent):[];
       return pruneContent(parsedContent);
     }
-			
+
     function pruneContent(parsedContent){
       if(!parsedContent.length) {
         return parsedContent;
@@ -28,7 +34,7 @@ module.exports = function (action,component){
         );
       }
     }
-			
+
     function getComponents(){
       var c = {all:[]};
       fs.readdirSync(componentsPath).forEach(function(file){

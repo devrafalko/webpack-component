@@ -11,6 +11,18 @@ function generateAliases(){
     aliases[prefix+components[i]] = path.resolve(componentsDir,components[i]);
   }
 
+  try{
+    if (!fs.existsSync(assetsDir)){
+      fs.mkdirSync(assetsDir);
+      var dirs = ['data','fonts','images','scripts','styles','templates','tests'];
+      for(let i in dirs){
+        fs.mkdirSync(path.resolve(assetsDir,dirs[i]));
+      }
+    }
+  } catch(err){
+    console.log("\x1b[31m", "Couldn't find 'src/assets' directory." ,'\x1b[0m');
+  }
+
   fs.readdirSync(assetsDir).forEach(function(file){
     var filePath = path.resolve(assetsDir,file);
     var capitalize = file.replace(/^./,a=>a.toUpperCase());

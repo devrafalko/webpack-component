@@ -17,7 +17,7 @@ function createComponent(){
   function createRootDir(){
     if (!fs.existsSync(componentsPath)){
       fs.mkdir(componentsPath,function(err){
-    if(err) {
+        if(err) {
           console.log("\x1b[31m", "Couldn't create 'components' directory." ,'\x1b[0m');
         } else {
           testComponentDirectory();

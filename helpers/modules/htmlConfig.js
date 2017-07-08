@@ -3,13 +3,14 @@ const fs = require('fs');
 const updateEntries = require('./updateEntries');
 const entries = updateEntries('ls').entries;
 const templatesPath = path.resolve('helpers','templates');
+const componentsPath = path.resolve('src','components');
 const HtmlPlugin = require('html-webpack-plugin');
 const BrowserPlugin = require('open-browser-webpack-plugin');
 
 const nodeEnv = process.env.NODE_ENV;
 const negProduction = nodeEnv!=='built'&&nodeEnv!=='built-p';
 
-module.exports = function (html,devOptions){
+module.exports = function (devOptions){
 	var arr = [];
 	for(let i in entries){
 		let entryName = entries[i];
@@ -20,7 +21,7 @@ module.exports = function (html,devOptions){
 			name:entryName,
 			template:templatePath,
 			icon:iconPath
-		},html)));
+		})));
 	}
 	if(negProduction){
 		arr.push(new BrowserPlugin({url: devOptions.url()}));
@@ -28,39 +29,38 @@ module.exports = function (html,devOptions){
 	
 	return arr;
 
-		function HtmlConfig(o,html){
+		function HtmlConfig(o){
 			this.template = o.template;
 			this.filename = o.name+'.html';
 			this.chunks = [o.name,'commons','manifest'];
 			this.inject = 'head';
 			this.favicon = o.icon;
-			this.title = html.title;
-			this.author = html.author;
-			this.description = html.description;
-			this.keywords = html.keywords;
-		};	
+		};
 
 		function setTemplate(name){
-			const tmpl = path.resolve(templatesPath,name+'.html');
-			const def = path.resolve(templatesPath,'index.html');
-			var t = fs.existsSync(tmpl) ? tmpl:fs.existsSync(def) ? def:false;
-			if(!t) console.log("\x1b[31m", "Couldn't find any html template file for '" + name + "' entry." ,'\x1b[0m');
+			const tmpl = path.resolve(componentsPath,name,'entry.html');
+			var t = fs.existsSync(tmpl) ? tmpl:false;
+			if(!t) console.log("\x1b[31m", "Couldn't find entry.html for '" + name + "' entry-point component." ,'\x1b[0m');
 			return t;
 		}
 
 		function setIcon(name){
-			const tmpl = findFile(name);
-			const def = findFile('favicon');
-			var t = tmpl || def;
-			if(!t) console.log("\x1b[31m", "Couldn't find any icon for '" + name + "' entry. Probably you removed `favicon.png` from `templates` directory." ,'\x1b[0m');
-			return t;
+			const userFavicon = findFile('favicon',path.resolve(componentsPath,name));
+			if(userFavicon){
+				fs.renameSync(userFavicon, path.resolve(path.dirname(userFavicon),'favicon_'+name+path.extname(userFavicon)));
+			}
+			const userIcon = findFile('favicon_'+name,path.resolve(componentsPath,name));
+			const defaultIcon = findFile('favicon',templatesPath);
+			var usedIcon = userIcon || defaultIcon;
+			if(!usedIcon) console.log("\x1b[31m", "Couldn't find any icon for '" + name + "' entry. Probably you removed `favicon.png` from `templates` directory." ,'\x1b[0m');
+			return usedIcon;
 		}
 
-			function findFile(name){
+			function findFile(name,iconDir){
 				var ext = ['.png','.ico'];
 				var ret = false;
 				for(var i in ext){
-					let p = path.resolve(templatesPath,name+ext[i]);
+					let p = path.resolve(iconDir,name+ext[i]);
 					if(fs.existsSync(p)){
 						ret = p;
 						break;

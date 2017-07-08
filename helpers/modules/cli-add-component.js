@@ -83,11 +83,14 @@ function createComponentContent(newComponentPath,newComponentName){
 	
 	function createComponentFiles(){
 		var newComponentArgs = cliArgs.args;
+		const htmlData = require('./htmlSettings');
+		htmlData['component-name'] = newComponentName;
+
 		if(cliArgs.entry && !cliArgs.args.some(a=>a==='c')) newComponentArgs.push('c');
 		
 		var files = {
 			styles:{cli:'v',fileName:'styles.scss',exp:true,variable:'styles'},
-			template:{cli:'v',fileName:'template.html',exp:true,variable:'template'},
+			template:{cli:'v',fileName:cliArgs.entry?'entry.html':'template.html',exp:true,variable:'template'},
 			controller:{cli:'c',fileName:'controller.js',exp:false,variable:'controller'},
 			data:{cli:'m',fileName:assetsDirectory+'/data.json',exp:false},
 			test:{cli:'t',fileName:'test.js',exp:false},
@@ -103,7 +106,8 @@ function createComponentContent(newComponentPath,newComponentName){
 
 		function createMvcFiles(filePath,fileName){
 			fs.readFile(path.join(templatesPath,fileName),'utf8',function(err,data){
-				var newContent = err ? '':data.replace(/\{\{component-name\}\}/gim,newComponentName);
+				var placeholders = /\{{2}(component-name|title|author|description|keywords)\}{2}/gim;
+				var newContent = err ? '':data.replace(placeholders,(a,b) => htmlData[b]);
 				fs.appendFile(filePath,newContent,function(err){
 					if(err) console.log('\x1b[31m',"Couldn't create " + fileName + " file",'\x1b[0m');
 					if(!err) console.log('\x1b[32m',"'" + fileName + "' file added.",'\x1b[0m');

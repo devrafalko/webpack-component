@@ -113,7 +113,7 @@ module.exports = {
 			},
 			{
 				test: /\.html$/i,
-				exclude:/helpers(\\|\/)templates(\\|\/).+\.html$/,
+				exclude:/((helpers(\\|\/)templates(\\|\/).+)|(entry))\.html$/,
 				use: [
 					{
 						loader: 'file-loader',
@@ -258,5 +258,5 @@ module.exports = {
 			mangle:production,
 			beautify:!production
 		})
-	].concat(htmlConfig(html,devOptions))
+	].concat(htmlConfig(devOptions))
 };

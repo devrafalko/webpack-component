@@ -11,6 +11,8 @@ module.exports = function(newInit){
 	if(typeof newInit === 'string'){
 		if(entries.some(a=>a===newInit)){
 			setNewInit(newInit);
+			console.log("\x1b[32m The 'init' property set to '" + newInit + "'.\x1b[0m ");	
+
 		} else {
 			console.log("\x1b[33m", "The '" + newInit + "' entry point does not exist. Add '" + newInit + "' entry-point component first." ,'\x1b[0m');
 		}

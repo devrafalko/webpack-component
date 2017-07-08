@@ -31,7 +31,7 @@ setNewHTML();
     var validProp = /^--?(title|author|description|keywords|init)$/;
     var validVal = /^--?.+$/;
     var map = {};
-    var logMsg =	'\x1b[31m Invalid arguments.\n\n\x1b[0m ' +
+    var logMsg =  '\x1b[31m Invalid arguments.\n\n\x1b[0m ' +
                   'Use: \x1b[36mnpm run html-set <arg> <value>\x1b[0m ' +
                   'where \x1b[36m<arg>\x1b[0m is one of:\n ' +
                   '\x1b[36m--title --author --description --keywords --init\x1b[0m\n\n';

@@ -5,6 +5,7 @@
   "author": "Paweł Rafałko <dev.rafalko@gmail.com>",
   "license": "MIT",
   "keywords": ["webpack","configuration","SPA","component"],
+  "bin" : { "wbc" : "./bin/cli.js" },
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.16",
     "cross-env": "^5.0.1",

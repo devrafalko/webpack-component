@@ -1,6 +1,6 @@
 {
   "name": "webpack-component",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The init webpack configuration for component-like SPA and MPA projects.",
   "author": "Paweł Rafałko <dev.rafalko@gmail.com>",
   "license": "MIT",

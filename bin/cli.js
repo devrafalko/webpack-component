@@ -12,8 +12,7 @@ const cli = {
 //  get:require('./cli-get')
 };
 
-args(function(a){
+args('wbc',commands,function(a){
   if(!a) return;
-  console.log(a);
   cli[a.command](a.args);
 });

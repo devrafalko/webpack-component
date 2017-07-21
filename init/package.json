@@ -1,18 +1,10 @@
 {
-  "name": "webpack-component",
-  "version": "0.1.2",
-  "description": "The init webpack configuration for component-like SPA and MPA projects.",
-  "author": "Paweł Rafałko <dev.rafalko@gmail.com>",
-  "license": "MIT",
-  "keywords": [
-    "webpack",
-    "configuration",
-    "SPA",
-    "component"
-  ],
-  "bin": {
-    "wbc": "./bin/cli.js"
-  },
+  "name": "",
+  "version": "",
+  "description": "",
+  "author": "",
+  "license": "",
+  "keywords": [],
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.16",
     "cross-env": "^5.0.1",
@@ -56,12 +48,5 @@
     "ls-component": "node helpers/modules/cli-ls-component",
     "html-set": "node helpers/modules/cli-html-set",
     "html-get": "node helpers/modules/cli-html-get"
-  },
-  "dependencies": {
-    "fs-extra": "^4.0.0",
-    "get-arguments": "^1.0.1",
-    "inquirer": "^3.2.0",
-    "semver": "^5.3.0",
-    "spdx-correct": "^2.0.3"
-  }
+  }  
 }
